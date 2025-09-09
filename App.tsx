@@ -1,44 +1,60 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+// A function to generate mock data.
+const generateMockData = (count) => {
+  const data = [];
+  for (let i = 0; i < count; i++) {
+    data.push({
+      id: String(i),
+      title: `Item #${i + 1}`,
+      description: `This is the description for item number ${i + 1}.`,
+    });
+  }
+  return data;
+};
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const DATA = generateMockData(5000);
+const ITEM_HEIGHT = 80; // A fixed height for our list items.
 
+const Item = ({ title, description }) => (
+  <View style={styles.item}>
+    <Text style={styles.title}>{title}</Text>
+    <Text style={styles.description}>{description}</Text>
+  </View>
+);
+
+const App = () => {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <FlatList
+      data={DATA}
+      renderItem={({ item }) => <Item title={item.title} description={item.description} />}
+      keyExtractor={item => item.id}
+      getItemLayout={(data, index) => ({
+        length: ITEM_HEIGHT,
+        offset: ITEM_HEIGHT * index,
+        index,
+      })}
+      windowSize={21}
+    />
   );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  item: {
+    backgroundColor: '#f9c9ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 8,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  description: {
+    fontSize: 16,
+    color: '#333',
   },
 });
 
