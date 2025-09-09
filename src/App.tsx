@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 
 // A function to generate mock data.
-const generateMockData = (count) => {
-  const data = [];
+const generateMockData = (count: number) => {
+  const data: { id: string; title: string; description: string }[] = [];
   for (let i = 0; i < count; i++) {
     data.push({
       id: String(i),
@@ -17,7 +17,7 @@ const generateMockData = (count) => {
 const DATA = generateMockData(5000);
 const ITEM_HEIGHT = 80; // A fixed height for our list items.
 
-const Item = ({ title, description }) => (
+const Item = ({ title, description }: { title: string; description: string }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
     <Text style={styles.description}>{description}</Text>
